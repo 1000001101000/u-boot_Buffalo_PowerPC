@@ -126,7 +126,7 @@
 
 //#define CONFIG_BOOTCOMMAND  	"run nfsboot"
 #define CONFIG_BOOTCOMMAND  	"run bootcmd1"
-#define CONFIG_BOOTARGS			"root=/dev/sda4 console=ttyS1,57600"
+#define CONFIG_BOOTARGS			"root=/dev/sda3 console=ttyS1,57600"
 #define CONFIG_NFSBOOTCOMMAND  	"bootp;run nfsargs;bootm"
 
 #define CFG_CONSOLE_IS_IN_ENV
@@ -158,8 +158,8 @@
 	"ser=setenv stdin serial;setenv stdout serial;setenv stderr serial\0"	\
     "ldaddr=800000\0"							\
     "hdpart=0:1\0"								\
-    "hdfile=boot/vmlinux.UBoot\0"				\
-    "hdload=echo Loading ${hdpart}:${hdfile};ext2load ide ${hdpart} ${ldaddr} ${hdfile};ext2load ide ${hdpart} 7f0000 boot/kuroboxHG.dtb\0"	\
+    "hdfile=/uImage.buffalo\0"				\
+    "hdload=echo Loading ${hdpart}:${hdfile};ext2load ide ${hdpart} ${ldaddr} ${hdfile};ext2load ide ${hdpart} 7f0000 /dtb\0"	\
     "boothd=setenv bootargs " CONFIG_BOOTARGS ";bootm ${ldaddr} - 7f0000\0"	\
     "hdboot=run hdload boothd\0"				\
     "flboot=setenv bootargs root=/dev/hda1;bootm ffc00000\0"	\
