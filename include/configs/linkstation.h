@@ -156,11 +156,20 @@
 	"netretry=no\0"								\
 	"nc=setenv stdin nc;setenv stdout nc;setenv stderr nc\0"	\
 	"ser=setenv stdin serial;setenv stdout serial;setenv stderr serial\0"	\
-    "ldaddr=800000\0"							\
+    "kaddr=800000\0"							\
+    "rdaddr=1200000\0"                                                    \
+    "dtaddr=7f0000\0"                                                    \
     "hdpart=0:1\0"								\
-    "hdfile=/uImage.buffalo\0"				\
-    "hdload=echo Loading ${hdpart}:${hdfile};ext2load ide ${hdpart} ${ldaddr} ${hdfile};ext2load ide ${hdpart} 7f0000 /dtb\0"	\
-    "boothd=setenv bootargs " CONFIG_BOOTARGS ";bootm ${ldaddr} - 7f0000\0"	\
+    "kernel=/uImage.buffalo\0"				\
+    "initrd=/initrd.buffalo\0"                          \
+    "dtb=/dtb\0"                          \
+    "kload=echo Loading ${hdpart}:${kernel};ext2load ide ${hdpart} ${kaddr} ${kernel}\0"       \
+    "rdload=echo Loading ${hdpart}:${initrd};ext2load ide ${hdpart} ${rdaddr} ${initrd}\0"      \
+    "dtload=echo Loading ${hdpart}:${dtb};ext2load ide ${hdpart} ${dtaddr} ${dtb}\0"    \
+    "hdload=run kload rdload dtload\0"     \
+    "boothd=setenv bootargs " CONFIG_BOOTARGS ";bootm ${kaddr} ${rdaddr} ${dtaddr}\0"   \
+    "oldhdload=echo Loading ${hdpart}:${kernel};ext2load ide ${hdpart} ${kaddr} ${kernel};ext2load ide ${hdpart} ${dtaddr} /dtb\0"	\
+    "oldboothd=setenv bootargs " CONFIG_BOOTARGS ";bootm ${kaddr} - ${dtaddr}\0"	\
     "hdboot=run hdload boothd\0"				\
     "flboot=setenv bootargs root=/dev/hda1;bootm ffc00000\0"	\
     "emboot=setenv bootargs root=/dev/ram0;bootm ffc00000\0"	\
@@ -174,10 +183,10 @@
 	"writeok=protect off fff70000 fff7ffff;era fff70000 fff7ffff;mw.l 800000 4f4b4f4b 1;cp.b 800000 fff70000 4\0" \
 	"ubpart=0:3\0"								\
 	"ubfile="UBFILE"\0"							\
-	"ubload=echo Loading ${ubpart}:${ubfile};ext2load ide ${ubpart} ${ldaddr} ${ubfile}\0" \
+	"ubload=echo Loading ${ubpart}:${ubfile};ext2load ide ${ubpart} ${kaddr} ${ubfile}\0" \
 	"ubsaddr=fff00000\0"						\
 	"ubeaddr=fff2ffff\0"						\
-	"ubflash=protect off ${ubsaddr} ${ubeaddr};era ${ubsaddr} ${ubeaddr};cp.b ${ldaddr} ${ubsaddr} ${filesize};cmp.b ${ldaddr} ${ubsaddr} ${filesize}\0" \
+	"ubflash=protect off ${ubsaddr} ${ubeaddr};era ${ubsaddr} ${ubeaddr};cp.b ${kaddr} ${ubsaddr} ${filesize};cmp.b ${kaddr} ${ubsaddr} ${filesize}\0" \
 	"upgrade=run ubload ubflash\0"
 
 /*-----------------------------------------------------------------------
