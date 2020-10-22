@@ -194,18 +194,18 @@ static __inline__ int abortboot(int bootdelay)
 		}
 
 #ifdef CONFIG_LINKSTATION
-		int avr_action = avr_input();
-		if (avr_action == -3)
+		//int avr_action = avr_input();
+		//if (avr_action == -3)
 			/* Abort boot */
-			abort = 1;
-		else if (avr_action == -2) {
+		//	abort = 1;
+		//else if (avr_action == -2) {
 			/* Restart boot */
-			putc('\r');
-			printf (CONFIG_AUTOBOOT_PROMPT, bootdelay);
-			etime = endtick(bootdelay);
-			onesec = endtick(1);
-			bootremain = bootdelay;
-		}
+		//	putc('\r');
+		//	printf (CONFIG_AUTOBOOT_PROMPT, bootdelay);
+		//	etime = endtick(bootdelay);
+		//	onesec = endtick(1);
+		//	bootremain = bootdelay;
+		//}
 #endif
 		if (tstc()) {
 			if (presskey_len < presskey_max) {
@@ -475,7 +475,7 @@ void main_loop (void)
 #endif
 
 #ifdef CONFIG_LINKSTATION
-		avr_StopBoot();
+//		avr_StopBoot();
 #endif
 
 	/*
@@ -503,8 +503,8 @@ void main_loop (void)
 		else if (len == 0)
 			flag |= CMD_FLAG_REPEAT;
 #ifdef CONFIG_LINKSTATION
-		else if (len == -2)
-			return;
+		//else if (len == -2)
+		//	return;
 #endif
 #ifdef CONFIG_BOOT_RETRY_TIME
 		else if (len == -2) {
@@ -1002,13 +1002,13 @@ int readline (const char *const prompt)
 		}
 #endif
 #ifdef CONFIG_LINKSTATION
-		while (!tstc()) {
-			int avr_ret = avr_input();
-			if (avr_ret == -2)
-				return (-2);
-			else if (avr_ret > 0)
-				return avr_ret;
-		}
+	//	while (!tstc()) {
+	//		int avr_ret = avr_input();
+	//		if (avr_ret == -2)
+	//			return (-2);
+	//		else if (avr_ret > 0)
+	//			return avr_ret;
+	//	}
 #endif
 		c = getc();
 

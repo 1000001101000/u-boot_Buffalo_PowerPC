@@ -139,9 +139,9 @@ static void nc_send_packet (const char *buf, int len)
 			console_setfile (stderr, odev);
 
 #if defined(CONFIG_LINKSTATION)
-			void next_cons_choice(int console);
+			//void next_cons_choice(int console);
 			/* Console 0 is the serial console */
-			next_cons_choice(0);
+			//next_cons_choice(0);
 #endif
 		}
 #endif
